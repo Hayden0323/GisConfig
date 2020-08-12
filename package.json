@@ -16,15 +16,16 @@
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint"
   },
-  "dependencies": { 
-    "cesium": "^1.72",
+  "dependencies": {
     "@turf/turf": "^5.1.6",
     "axios": "^0.19.2",
+    "cesium": "^1.72",
     "element-ui": "^2.13.1",
-    "normalize.css": "^8.0.1", 
+    "normalize.css": "^8.0.1",
     "vue": "^2.6.11",
     "vue-draggable-resizable": "^2.1.0",
     "vue-router": "^3.1.5",
+    "vuetify": "^2.3.8",
     "vuex": "^3.1.2"
   },
   "devDependencies": {
@@ -40,11 +41,15 @@
     "babel-plugin-component": "^1.1.1",
     "babel-preset-es2015": "^6.24.1",
     "compression-webpack-plugin": "^3.1.0",
+    "deepmerge": "^4.2.2",
     "eslint": "^6.7.2",
     "eslint-plugin-import": "^2.20.1",
     "eslint-plugin-vue": "^6.1.2",
+    "fibers": "^5.0.0",
     "less": "^3.0.4",
     "less-loader": "^5.0.0",
+    "sass": "^1.26.10",
+    "sass-loader": "^9.0.3",
     "strip-pragma-loader": "^1.0.0",
     "vue-template-compiler": "^2.6.11"
   },
