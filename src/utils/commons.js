@@ -1,29 +1,29 @@
 /**
  * 工具模块
  */
-import crypto from 'crypto';
+import crypto from 'crypto'
 
 // 从数据中获取需要的参数，默认获取_id
 export const selection = (data, params) => {
-  const result = [];
+  const result = []
 
   if (params && params.length > 0) {
     data.forEach((item) => {
       params.forEach((param) => {
         result.push({
           id: item.id,
-          param: item[param]
-        });
-      }, this);
-    }, this);
+          param: item[param],
+        })
+      }, this)
+    }, this)
   } else {
     data.forEach((item) => {
-      result.push(item.id);
-    }, this);
+      result.push(item.id)
+    }, this)
   }
 
-  return result;
-};
+  return result
+}
 
 /**
  * 读取localStorage
@@ -32,19 +32,19 @@ export const selection = (data, params) => {
  */
 export const getStorage = (key, type) => {
   try {
-    const result = JSON.parse(localStorage.getItem(key));
+    const result = JSON.parse(localStorage.getItem(key))
 
     if (result === null || result === '') {
-      return type;
+      return type
     }
 
-    return result;
+    return result
   } catch (error) {
-    console.error(new Error('读取缓存数据错误:', error));
+    console.error(new Error('读取缓存数据错误:', error))
 
-    return type;
+    return type
   }
-};
+}
 
 /**
  * MD5加密
@@ -54,14 +54,14 @@ export const getStorage = (key, type) => {
  */
 export function encryptMD5(data) {
   try {
-    const md5 = crypto.createHash('md5');
-    md5.update(data);
+    const md5 = crypto.createHash('md5')
+    md5.update(data)
 
-    return md5.digest('hex');
+    return md5.digest('hex')
   } catch (error) {
-    console.error(error);
+    console.error(error)
 
-    return null;
+    return null
   }
 }
 
@@ -79,19 +79,27 @@ export function encryptMD5(data) {
  */
 export function cryptoEncode(encodeParam) {
   try {
-    const plain = encodeParam.plaintext.toString();
-    const cipher = crypto.createCipheriv(encodeParam.algorithm, encodeParam.key, encodeParam.iv);
+    const plain = encodeParam.plaintext.toString()
+    const cipher = crypto.createCipheriv(
+      encodeParam.algorithm,
+      encodeParam.key,
+      encodeParam.iv
+    )
 
-    cipher.setAutoPadding(encodeParam.autoPadding);
+    cipher.setAutoPadding(encodeParam.autoPadding)
 
-    let ciphertext = cipher.update(plain, encodeParam.inputEncoding || 'utf8', encodeParam.outputEncoding || 'hex');
-    ciphertext += cipher.final(encodeParam.outputEncoding || 'hex');
+    let ciphertext = cipher.update(
+      plain,
+      encodeParam.inputEncoding || 'utf8',
+      encodeParam.outputEncoding || 'hex'
+    )
+    ciphertext += cipher.final(encodeParam.outputEncoding || 'hex')
 
-    return ciphertext;
+    return ciphertext
   } catch (error) {
-    console.error(error);
+    console.error(error)
 
-    return null;
+    return null
   }
 }
 
@@ -109,35 +117,43 @@ export function cryptoEncode(encodeParam) {
  */
 export function decryptDecode(decodeParam) {
   try {
-    const ciphertext = ((decodeParam || {}).ciphertext || '').toString();
-    const decipher = crypto.createDecipheriv(decodeParam.algorithm, decodeParam.key, decodeParam.iv);
+    const ciphertext = ((decodeParam || {}).ciphertext || '').toString()
+    const decipher = crypto.createDecipheriv(
+      decodeParam.algorithm,
+      decodeParam.key,
+      decodeParam.iv
+    )
 
-    decipher.setAutoPadding(decodeParam.autoPadding);
+    decipher.setAutoPadding(decodeParam.autoPadding)
 
-    let plaintext = decipher.update(ciphertext, decodeParam.inputEncoding || 'hex', decodeParam.outputEncoding || 'utf8');
+    let plaintext = decipher.update(
+      ciphertext,
+      decodeParam.inputEncoding || 'hex',
+      decodeParam.outputEncoding || 'utf8'
+    )
 
-    plaintext += decipher.final(decodeParam.outputEncoding || 'utf8');
+    plaintext += decipher.final(decodeParam.outputEncoding || 'utf8')
 
-    return plaintext;
+    return plaintext
   } catch (error) {
-    console.error(error);
-    return null;
+    console.error(error)
+    return null
   }
 }
 
 // 去除左右空格
 export function trim(str) {
-  return str.replace(/(^\s*)|(\s*$)/g, '');
+  return str.replace(/(^\s*)|(\s*$)/g, '')
 }
 
 // 删除左边的空格
 export function ltrim(str) {
-  return str.replace(/(^\s*)/g, '');
+  return str.replace(/(^\s*)/g, '')
 }
 
 // 删除右边的空格
 export function rtrim(str) {
-  return str.replace(/(\s*$)/g, '');
+  return str.replace(/(\s*$)/g, '')
 }
 
 /**
@@ -146,7 +162,9 @@ export function rtrim(str) {
  * @return {Boolean} 校验是否通过
  */
 export function isTelphoneNumber(value) {
-  return /^(13[0-9]|14[5-9]|15[0-3,5-9]|16[2,5,6,7]|17[0-8]|18[0-9]|19[0-3,5-9])\d{8}$/.test(value);
+  return /^(13[0-9]|14[5-9]|15[0-3,5-9]|16[2,5,6,7]|17[0-8]|18[0-9]|19[0-3,5-9])\d{8}$/.test(
+    value
+  )
 }
 
 /**
@@ -158,33 +176,33 @@ export function isTelphoneNumber(value) {
  * @return {String} 格式化后的金额
  */
 export function formatMoney(data, decimals, decPoint, thousandsSep) {
-  const numer = data.toString().replace(/[^0-9+-Ee.]/g, '');
+  const numer = data.toString().replace(/[^0-9+-Ee.]/g, '')
 
-  const n = !Number.isFinite(+numer) ? 0 : +numer;
-  const prec = !Number.isFinite(+decimals) ? 0 : Math.abs(decimals);
-  const sep = (typeof thousandsSep === 'undefined') ? ',' : thousandsSep;
-  const dec = (typeof decPoint === 'undefined') ? '.' : decPoint;
-  let s = '';
+  const n = !Number.isFinite(+numer) ? 0 : +numer
+  const prec = !Number.isFinite(+decimals) ? 0 : Math.abs(decimals)
+  const sep = typeof thousandsSep === 'undefined' ? ',' : thousandsSep
+  const dec = typeof decPoint === 'undefined' ? '.' : decPoint
+  let s = ''
 
   function toFixedFix(numCal, precCal) {
-    const k = 10 ** precCal;
-    return (Math.ceil(numCal * k) / k).toString();
+    const k = 10 ** precCal
+    return (Math.ceil(numCal * k) / k).toString()
   }
 
-  s = (prec ? toFixedFix(n, prec) : Math.round(n).toString()).split('.');
+  s = (prec ? toFixedFix(n, prec) : Math.round(n).toString()).split('.')
 
-  const re = /(-?\d+)(\d{3})/;
+  const re = /(-?\d+)(\d{3})/
 
   while (re.test(s[0])) {
-    s[0] = s[0].replace(re, `$1${sep}$2`);
+    s[0] = s[0].replace(re, `$1${sep}$2`)
   }
 
   if ((s[1] || '').length < prec) {
-    s[1] = s[1] || '';
-    s[1] += new Array(prec - s[1].length + 1).join('0');
+    s[1] = s[1] || ''
+    s[1] += new Array(prec - s[1].length + 1).join('0')
   }
 
-  return s.join(dec);
+  return s.join(dec)
 }
 
 /**
@@ -193,9 +211,9 @@ export function formatMoney(data, decimals, decPoint, thousandsSep) {
  * @returns {String} 格式化后的数字
  */
 export function formatNumber(n) {
-  const number = n.toString();
+  const number = n.toString()
 
-  return number[1] ? number : `0${number}`;
+  return number[1] ? number : `0${number}`
 }
 
 /**
@@ -204,16 +222,20 @@ export function formatNumber(n) {
  * @param {String} format 格式化的结构
  */
 export function formatDate(date, format) {
-  const dateType = Object.prototype.toString.call(date);
+  const dateType = Object.prototype.toString.call(date)
 
-  if (dateType !== '[object String]' && dateType !== '[object Date]' && dateType !== '[object Number]') {
-    date = new Date();
+  if (
+    dateType !== '[object String]' &&
+    dateType !== '[object Date]' &&
+    dateType !== '[object Number]'
+  ) {
+    date = new Date()
   } else {
-    date = new Date(date);
+    date = new Date(date)
 
     // date无效
     if (Number.isNaN(date.getTime())) {
-      date = new Date();
+      date = new Date()
     }
   }
 
@@ -224,25 +246,44 @@ export function formatDate(date, format) {
     'm+': date.getMinutes(),
     's+': date.getSeconds(),
     'q+': Math.floor((date.getMonth() + 3) / 3),
-    'S+': date.getMilliseconds()
-  };
+    'S+': date.getMilliseconds(),
+  }
 
   if (/(y+)/i.test(format)) {
-    format = format.replace(RegExp.$1, (date.getFullYear().toString()).substr(4 - RegExp.$1.length));
+    format = format.replace(
+      RegExp.$1,
+      date
+        .getFullYear()
+        .toString()
+        .substr(4 - RegExp.$1.length)
+    )
   }
 
   if (/(w+)/i.test(format)) {
-    const week = ['星期日', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六'];
-    format = format.replace(RegExp.$1, week[date.getDay()]);
+    const week = [
+      '星期日',
+      '星期一',
+      '星期二',
+      '星期三',
+      '星期四',
+      '星期五',
+      '星期六',
+    ]
+    format = format.replace(RegExp.$1, week[date.getDay()])
   }
 
   Object.getOwnPropertyNames(args).forEach((key) => {
     if (new RegExp(`(${key})`, 'i').test(format)) {
-      format = format.replace(RegExp.$1, RegExp.$1.length === 1 ? item : (`00${args[key]}`).substr(args[key].toString().length));
+      format = format.replace(
+        RegExp.$1,
+        RegExp.$1.length === 1
+          ? item
+          : `00${args[key]}`.substr(args[key].toString().length)
+      )
     }
-  });
+  })
 
-  return format;
+  return format
 }
 
 /**
@@ -252,19 +293,19 @@ export function formatDate(date, format) {
  * @param {Number} delay 冷却的时间，毫秒
  */
 export function throttle(fn, delay) {
-  const timer = null;
+  const timer = null
 
-  return function () {
-    const _this = this;
-    const _args = arguments;
+  return function() {
+    const _this = this
+    const _args = arguments
 
     if (!timer) {
       timer = setTimeout(() => {
-        fn.apply(_this, _args);
-        timer = null;
-      }, delay);
+        fn.apply(_this, _args)
+        timer = null
+      }, delay)
     }
-  };
+  }
 }
 
 /**
@@ -274,19 +315,19 @@ export function throttle(fn, delay) {
  * @param {Number} delay 延迟时间，毫秒
  */
 export function debounce(fn, delay) {
-  let timer = null;
+  let timer = null
 
   // 返回函数对debounce作用域形成闭包
-  return function () {
+  return function() {
     // setTimeout()中用到函数环境总是window,故需要当前环境的副本；
-    const context = this; const
-      args = arguments;
+    const context = this
+    const args = arguments
 
     // 如果事件被触发，清除timer并重新开始计时
-    clearTimeout(timer);
+    clearTimeout(timer)
 
     timer = setTimeout(() => {
-      fn.apply(context, args);
-    }, delay);
-  };
+      fn.apply(context, args)
+    }, delay)
+  }
 }

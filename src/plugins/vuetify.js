@@ -1,4 +1,5 @@
-import 'material-design-icons-iconfont/dist/material-design-icons.css' // Ensure you are using css-loader
+// Ensure you are using css-loader
+import 'material-design-icons-iconfont/dist/material-design-icons.css'
 import Vue from 'vue'
 import Vuetify from 'vuetify'
 import 'vuetify/dist/vuetify.min.css'
@@ -7,7 +8,8 @@ Vue.use(Vuetify)
 
 const opts = {
   icons: {
-    iconfont: 'md', // default - only for display purposes
+    // default - only for display purposes
+    iconfont: 'md',
   },
 }
 

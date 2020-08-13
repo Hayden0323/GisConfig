@@ -1,28 +1,26 @@
 <template>
   <div :id="`marsgis-container${mapKey ? '-' + mapKey : ''}`"
-    :class="['mars3d-container', customClass, { 'mars3d-container-compare-rh' : compare }]"></div>
+       :class="['mars3d-container', customClass, { 'mars3d-container-compare-rh' : compare }]"></div>
 </template>
 
 <script>
-import Vue from 'vue';
-import * as Cesium from 'cesium/Cesium';
-import axios from 'axios';
-import mars3d from './mars3d/mars3d';
+import Vue from 'vue'
+import * as Cesium from 'cesium/Cesium'
+import axios from 'axios'
+import mars3d from './mars3d/mars3d'
 
 // 导航球
-import './plugins/navigation/mars3d-navigation.css';
-import './plugins/navigation/mars3d-navigation';
+import './plugins/navigation/mars3d-navigation.css'
+import './plugins/navigation/mars3d-navigation'
 
-import { loadCesiumZH } from './plugins/class/cesium-zh';
+import { loadCesiumZH } from './plugins/class/cesium-zh'
 
-import 'cesium/Widgets/widgets.css';
-import './mars3d/mars3d.css';
-
-Vue.prototype.$mars3d = mars3d;
+import 'cesium/Widgets/widgets.css'
+import './mars3d/mars3d.css'
 
 //为了方便使用,可以取消注释，按下面这样操作
-// window.Cesium =Cesium
-// window.mars3d =mars3d
+window.$Cesium = Cesium
+window.$mars3d = mars3d
 
 export default {
   name: 'CesiumViewer',
@@ -59,28 +57,30 @@ export default {
     }
   },
 
-  mounted() {
+  mounted () {
     if (this.appendToBody) {
-      document.body.appendChild(this.$el);
+      document.body.appendChild(this.$el)
     }
 
     if (this.mapKey) {
-      this.initMars3d(this.options);
+      this.initMars3d(this.options)
     } else {
       this.getMapConfig(this.url).then(data => {
-        this.initMars3d(data);
+        this.initMars3d(data)
       });
     }
   },
 
-  beforeDestroy() {
-    this[`viewer${this.mapKey}`].mars.destroy();
-    this[`viewer${this.mapKey}`].destroy();
-    delete this[`viewer${this.mapKey}`];
+  beforeDestroy () {
+    if (window.$viewer) {
+      window.$viewer.mars.destroy()
+      window.$viewer.destroy()
+      delete window.$viewer
+    }
   },
 
   methods: {
-    getMapConfig(url) {
+    getMapConfig (url) {
       return new Promise((resolve, reject) => {
         axios
           .get(url)
@@ -93,9 +93,9 @@ export default {
       });
     },
 
-    initMars3d(options) {
-      if (this[`viewer${this.mapKey}`]) return;
-      
+    initMars3d (options) {
+      if (window.$viewer) return;
+
       const viewer = mars3d.createMap({
         id: `marsgis-container${this.mapKey ? `-${this.mapKey}` : ''}`,
         data: options.map3d,
@@ -105,7 +105,7 @@ export default {
 
       // 汉化
       loadCesiumZH();
- 
+
       // Cesium 1.61以后会默认关闭反走样，对于桌面端而言还是开启得好，
       viewer.scene.postProcessStages.fxaa.enabled = true;
 
@@ -132,12 +132,9 @@ export default {
         document.dispatchEvent(new Event('mousedown'));
         document.dispatchEvent(new Event('click'));
       };
-      this[`viewer${this.mapKey}`] = viewer;
 
-      // 挂载到全局对象下，所有组件通过this.$viewer访问
-
-      Vue.prototype[`$viewer${this.mapKey}`] = viewer;
-      Vue.prototype.$Cesium = Cesium;
+      // 挂载到全局对象下
+      window.$viewer = viewer;
       console.log('>>>>> 地图创建成功 >>>>');
 
       this.$emit('onload', viewer);
