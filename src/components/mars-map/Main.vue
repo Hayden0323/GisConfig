@@ -151,6 +151,9 @@ export default {
 }
 
 /* 重写Cesium的css */
+.mars3d-locationbar {
+  z-index: 1;
+}
 
 /**cesium按钮背景色*/
 .cesium-button {

@@ -45,7 +45,7 @@
           </v-list-item-content>
         </v-list-item>
       </template>
-
+      <car-card></car-card>
     </v-menu>
     <v-divider dark
                class="my-4"></v-divider>
@@ -53,11 +53,13 @@
 </template>
 
 <script>
-import PeopleCard from '../../card/peopleCard'
+import PeopleCard from '../../card/PeopleCard'
+import CarCard from '../../card/CarCard'
 
 export default {
   components: {
-    PeopleCard
+    PeopleCard,
+    CarCard
   },
   data: () => ({
     peopleMenu: false,

@@ -4,14 +4,13 @@
       <v-list fluid>
         <v-list-item>
           <v-col cols="12">
-            <v-text-field label="模型地址"
-                          append-outer-icon="place"
+            <v-text-field label="地图模型地址"
                           @keydown="handleLoadModel"
                           v-model="url"></v-text-field>
           </v-col>
         </v-list-item>
         <v-list-item>
-          <v-col cols="4">
+          <v-col cols="9">
             <v-checkbox v-model="isProxy"
                         label="需要代理"></v-checkbox>
           </v-col>

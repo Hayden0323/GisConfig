@@ -21,6 +21,7 @@
     "axios": "^0.19.2",
     "cesium": "^1.72",
     "element-ui": "^2.13.1",
+    "file-saver": "^2.0.2",
     "normalize.css": "^8.0.1",
     "vue": "^2.6.11",
     "vue-draggable-resizable": "^2.1.0",
