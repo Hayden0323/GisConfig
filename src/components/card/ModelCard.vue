@@ -1,48 +1,50 @@
 <template>
-  <v-card>
-    <v-list fluid>
-      <v-list-item>
-        <v-col cols="12">
-          <v-text-field label="模型地址"
-                        append-outer-icon="place"
-                        @keydown="handleLoadModel"
-                        v-model="url"></v-text-field>
-        </v-col>
-      </v-list-item>
-      <v-list-item>
-        <v-col cols="4">
-          <v-checkbox v-model="isProxy"
-                      label="需要代理"></v-checkbox>
-        </v-col>
-        <v-col cols="3">
-          <v-btn color="primary"
-                 @click.prevent="handleLoadModel"
-                 small>加载模型</v-btn>
-        </v-col>
-      </v-list-item>
-      <v-list-item>
-        <v-col cols="12">
-          <v-slider v-model="maximumScreenSpaceError"
-                    thumb-label="always"
-                    :thumb-size="24"
-                    min="1"
-                    max="16"
-                    label="模型精度"></v-slider>
-        </v-col>
-      </v-list-item>
+  <div class="model-card">
+    <v-card>
+      <v-list fluid>
+        <v-list-item>
+          <v-col cols="12">
+            <v-text-field label="模型地址"
+                          append-outer-icon="place"
+                          @keydown="handleLoadModel"
+                          v-model="url"></v-text-field>
+          </v-col>
+        </v-list-item>
+        <v-list-item>
+          <v-col cols="4">
+            <v-checkbox v-model="isProxy"
+                        label="需要代理"></v-checkbox>
+          </v-col>
+          <v-col cols="3">
+            <v-btn color="primary"
+                   @click.prevent="handleLoadModel"
+                   small>加载模型</v-btn>
+          </v-col>
+        </v-list-item>
+        <v-list-item>
+          <v-col cols="12">
+            <v-slider v-model="maximumScreenSpaceError"
+                      thumb-label="always"
+                      :thumb-size="24"
+                      min="1"
+                      max="16"
+                      label="模型精度"></v-slider>
+          </v-col>
+        </v-list-item>
 
-      <v-list-item>
-        <v-col cols="12">
-          <v-slider v-model="offsetZ"
-                    thumb-label="always"
-                    :thumb-size="24"
-                    min="-50"
-                    max="100"
-                    label="高度偏移值"></v-slider>
-        </v-col>
-      </v-list-item>
-    </v-list>
-  </v-card>
+        <v-list-item>
+          <v-col cols="12">
+            <v-slider v-model="offsetZ"
+                      thumb-label="always"
+                      :thumb-size="24"
+                      min="-50"
+                      max="100"
+                      label="高度偏移值"></v-slider>
+          </v-col>
+        </v-list-item>
+      </v-list>
+    </v-card>
+  </div>
 </template>
 
 <script>

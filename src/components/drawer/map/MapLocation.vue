@@ -6,13 +6,6 @@
           定位相关
         </v-subheader>
       </v-col>
-      <v-col cols="6"
-             class="text-right">
-        <v-btn class=""
-               icon>
-          <v-icon>done</v-icon>
-        </v-btn>
-      </v-col>
     </v-row>
     <v-menu v-model="peopleMenu"
             :close-on-content-click="false"
@@ -32,7 +25,7 @@
           </v-list-item-content>
         </v-list-item>
       </template>
-
+      <people-card></people-card>
     </v-menu>
     <v-menu v-model="carMenu"
             :close-on-content-click="false"
@@ -60,10 +53,15 @@
 </template>
 
 <script>
+import PeopleCard from '../../card/peopleCard'
+
 export default {
+  components: {
+    PeopleCard
+  },
   data: () => ({
-    peopleMenu: null,
-    carMenu: null
+    peopleMenu: false,
+    carMenu: false
   })
 }
 </script>

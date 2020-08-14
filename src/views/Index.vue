@@ -43,13 +43,15 @@
         </v-row>
       </v-container>
     </v-main>
+    <snack></snack>
   </v-app>
-
 </template>
 
 <script>
 import Map from "mars-map/Main.vue"
 import MapDrawer from '../components/drawer/map/MapDrawer'
+import Snack from '../components/alert/Snack'
+
 import * as Cesium from 'cesium/Cesium'
 import mars3d from '../components/mars-map/mars3d/mars3d'
 
@@ -60,6 +62,7 @@ export default {
   name: "Index",
 
   components: {
+    Snack,
     Map,
     MapDrawer
   },

@@ -85,6 +85,7 @@ export function loadModel(url, maximumScreenSpaceError, isProxy = false) {
     })
     .otherwise((error) => {
       console.log(`加载数据出错: ${error}`)
+      store.commit('snack/configSnack', { isShow: true, text: error })
     })
 }
 

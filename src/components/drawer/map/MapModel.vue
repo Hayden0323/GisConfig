@@ -6,13 +6,6 @@
           地图相关
         </v-subheader>
       </v-col>
-      <v-col cols="6"
-             class="text-right">
-        <v-btn class=""
-               icon>
-          <v-icon>done</v-icon>
-        </v-btn>
-      </v-col>
     </v-row>
     <v-menu v-model="menu"
             :close-on-content-click="false"
@@ -34,18 +27,26 @@
       </template>
       <model-card></model-card>
     </v-menu>
-    <v-list-item-group>
-      <v-list-item>
-        <v-list-item-action>
-          <v-icon>crop</v-icon>
-        </v-list-item-action>
-        <v-list-item-content>
-          <v-list-item-title class="grey--text">
-            获取当前视角
-          </v-list-item-title>
-        </v-list-item-content>
-      </v-list-item>
-    </v-list-item-group>
+    <v-list-item>
+      <v-list-item-action>
+        <v-icon>crop</v-icon>
+      </v-list-item-action>
+      <v-list-item-content>
+        <v-list-item-title class="grey--text">
+          获取当前视角
+        </v-list-item-title>
+      </v-list-item-content>
+      <v-list-item-action>
+        <v-btn icon>
+          <v-icon color="grey lighten-1"
+                  @click="getCameraView"
+                  v-if="!isActive">photo_camera</v-icon>
+          <v-icon color="green lighten-1"
+                  @click="getCameraView"
+                  v-else>photo_camera</v-icon>
+        </v-btn>
+      </v-list-item-action>
+    </v-list-item>
     <v-divider dark
                class="my-4"></v-divider>
   </div>
@@ -53,14 +54,24 @@
 
 <script>
 import ModelCard from '../../card/ModelCard'
+import { mapState, mapActions } from 'vuex'
 
 export default {
   components: {
     ModelCard
   },
+  computed: {
+    ...mapState('map', ['center']),
+    isActive () {
+      return Object.keys(this.center).length !== 0
+    }
+  },
   data: () => ({
     menu: false,
-  })
+  }),
+  methods: {
+    ...mapActions('map', ['getCameraView'])
+  }
 }
 </script>
 
