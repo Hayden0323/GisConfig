@@ -3,7 +3,7 @@ import store from '../store/index'
 export function getJSON() {
   let result = {}
 
-  const { map, platform } = store.state
+  const { map, platform, location } = store.state
 
   const mars3d = {
     homeButton: true,
@@ -168,6 +168,33 @@ export function getJSON() {
 
   const platConfig = {
     COMPANY_NAME: platform.companyName,
+    PEOPLE_LOCATION: location.peopleLocation,
+    LOCATION_ISLY: location.isBlueTooth,
+    LYORIGINPOS: location.btOriginal,
+    LYANGLE: location.btAngle,
+    LYSCALE: location.btScale,
+    LOCATION_PARAMS: {
+      username: location.username,
+      password: location.password,
+    },
+    CAR_LOCATION: location.carLocation,
+    CAR_LOCATION_PARAMS: {
+      companynum: location.carAccount,
+    },
+    ENTITY_MODEL: {
+      staff: location.staff,
+      car: location.car,
+    },
+    NORMAL_HEIGHT: location.height,
+    TRACK_HEIGHT: location.height,
+    CONNECTION_POOL: {
+      baseUrl: `http://${platform.baseUrl}:${platform.basePort}/xdkj/rydw`,
+      wwyt: `http://${platform.baseUrl}:${platform.basePort}`,
+      location: `http://${platform.baseUrl}:${platform.basePort}/websocket/rydw`,
+      carLocation: `http://${platform.carUrl}:${platform.carPort}/czk`,
+      wwytAlarm: `http://${platform.baseUrl}:${platform.basePort}/websocket/bjxx`,
+      locationAlarm: `http://${platform.baseUrl}:${platform.basePort}/websocket/bjxx`,
+    },
   }
 
   result = { mars3d: { ...mars3d }, platConfig: { ...platConfig } }

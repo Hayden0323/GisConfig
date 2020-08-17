@@ -11,17 +11,17 @@
         <v-list-item>
           <v-col cols="12">
             <v-text-field label="定位账号"
-                          :value="carAccount"></v-text-field>
+                          v-model="carAccount"></v-text-field>
           </v-col>
         </v-list-item>
         <v-list-item>
           <v-col cols="9">
             <v-text-field label="模型地址"
-                          :value="carUrl"></v-text-field>
+                          v-model="carUrl"></v-text-field>
           </v-col>
           <v-col cols="3">
             <v-text-field label="模型比例"
-                          :value="carScale"></v-text-field>
+                          v-model="carScale"></v-text-field>
           </v-col>
         </v-list-item>
       </v-list>

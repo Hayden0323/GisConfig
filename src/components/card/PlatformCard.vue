@@ -5,27 +5,27 @@
         <v-list-item>
           <v-col cols="12">
             <v-text-field label="项目名称"
-                          :value="companyName"></v-text-field>
+                          v-model="companyName"></v-text-field>
           </v-col>
         </v-list-item>
         <v-list-item>
           <v-col cols="6">
             <v-text-field label="项目地址"
-                          :value="baseUrl"></v-text-field>
+                          v-model="baseUrl"></v-text-field>
           </v-col>
           <v-col cols="6">
             <v-text-field label="项目端口"
-                          :value="basePort"></v-text-field>
+                          v-model="basePort"></v-text-field>
           </v-col>
         </v-list-item>
         <v-list-item>
           <v-col cols="6">
             <v-text-field label="车辆定位地址"
-                          :value="carUrl"></v-text-field>
+                          v-model="carUrl"></v-text-field>
           </v-col>
           <v-col cols="6">
             <v-text-field label="车辆定位端口"
-                          :value="carPort"></v-text-field>
+                          v-model="carPort"></v-text-field>
           </v-col>
         </v-list-item>
       </v-list>

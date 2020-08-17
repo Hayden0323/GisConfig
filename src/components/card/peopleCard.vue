@@ -21,47 +21,47 @@
           <v-col cols="4">
             <v-text-field label="高程"
                           hint="地图右击可获取高程"
-                          :value="height"></v-text-field>
+                          v-model="height"></v-text-field>
           </v-col>
         </v-list-item>
         <v-list-item>
           <v-col cols="6">
             <v-text-field label="蓝牙原点经度"
-                          :value="lng"></v-text-field>
+                          v-model="lng"></v-text-field>
           </v-col>
           <v-col cols="6">
             <v-text-field label="蓝牙原点纬度"
-                          :value="lat"></v-text-field>
+                          v-model="lat"></v-text-field>
           </v-col>
         </v-list-item>
         <v-list-item>
           <v-col cols="6">
             <v-text-field label="蓝牙模式角度"
-                          :value="angle"></v-text-field>
+                          v-model="angle"></v-text-field>
           </v-col>
           <v-col cols="6">
             <v-text-field label="蓝牙模式比例"
-                          :value="scale"></v-text-field>
+                          v-model="scale"></v-text-field>
           </v-col>
         </v-list-item>
         <v-list-item>
           <v-col cols="6">
             <v-text-field label="定位账号"
-                          :value="username"></v-text-field>
+                          v-model="username"></v-text-field>
           </v-col>
           <v-col cols="6">
             <v-text-field label="定位密码"
-                          :value="password"></v-text-field>
+                          v-model="password"></v-text-field>
           </v-col>
         </v-list-item>
         <v-list-item>
           <v-col cols="9">
             <v-text-field label="模型地址"
-                          :value="staffUrl"></v-text-field>
+                          v-model="staffUrl"></v-text-field>
           </v-col>
           <v-col cols="3">
             <v-text-field label="模型比例"
-                          :value="staffScale"></v-text-field>
+                          v-model="staffScale"></v-text-field>
           </v-col>
         </v-list-item>
       </v-list>
