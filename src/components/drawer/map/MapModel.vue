@@ -38,12 +38,8 @@
       </v-list-item-content>
       <v-list-item-action>
         <v-btn icon>
-          <v-icon color="grey lighten-1"
-                  @click="getCameraView"
-                  v-if="!isActive">photo_camera</v-icon>
-          <v-icon color="green lighten-1"
-                  @click="getCameraView"
-                  v-else>photo_camera</v-icon>
+          <v-icon :color="isPreserved"
+                  @click="getCameraView">photo_camera</v-icon>
         </v-btn>
       </v-list-item-action>
     </v-list-item>
@@ -62,8 +58,8 @@ export default {
   },
   computed: {
     ...mapState('map', ['center']),
-    isActive () {
-      return Object.keys(this.center).length !== 0
+    isPreserved () {
+      return Object.keys(this.center).length === 0 ? 'grey lighten-1' : 'green lighten-1'
     }
   },
   data: () => ({

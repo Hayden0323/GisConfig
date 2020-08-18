@@ -5,16 +5,18 @@ export function getJSON() {
 
   const { map, platform, location } = store.state
 
-  const mars3d = {
+  const map3d = {
     homeButton: true,
     sceneModePicker: true,
     navigationHelpButton: true,
     infoBox: true,
     vrButton: false,
     fullscreenButton: false,
-    geocoder: false,
+    geocoder: true,
     baseLayerPicker: true,
     showRenderLoopErrors: true,
+    animation: true,
+    timeline: true,
     center: map.center,
     minzoom: 1,
     maxzoom: 20000000,
@@ -34,7 +36,7 @@ export function getJSON() {
     },
     navigation: {
       legend: { left: '100px', bottom: '-1px' },
-      compass: { bottom: '200px', right: '2px' },
+      compass: { bottom: '240px', right: '2px' },
     },
     terrain: {
       url: 'http://data.marsgis.cn/terrain',
@@ -190,14 +192,14 @@ export function getJSON() {
     CONNECTION_POOL: {
       baseUrl: `http://${platform.baseUrl}:${platform.basePort}/xdkj/rydw`,
       wwyt: `http://${platform.baseUrl}:${platform.basePort}`,
-      location: `http://${platform.baseUrl}:${platform.basePort}/websocket/rydw`,
+      location: `ws://${platform.baseUrl}:${platform.basePort}/websocket/rydw`,
       carLocation: `http://${platform.carUrl}:${platform.carPort}/czk`,
-      wwytAlarm: `http://${platform.baseUrl}:${platform.basePort}/websocket/bjxx`,
-      locationAlarm: `http://${platform.baseUrl}:${platform.basePort}/websocket/bjxx`,
+      wwytAlarm: `ws://${platform.baseUrl}:${platform.basePort}/websocket/bjxx`,
+      locationAlarm: `ws://${platform.baseUrl}:${platform.basePort}/websocket/bjxx`,
     },
   }
 
-  result = { mars3d: { ...mars3d }, platConfig: { ...platConfig } }
+  result = { map3d: { ...map3d }, platConfig: { ...platConfig } }
 
   return result
 }
