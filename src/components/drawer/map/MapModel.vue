@@ -25,7 +25,8 @@
           </v-list-item-content>
         </v-list-item>
       </template>
-      <model-card></model-card>
+
+      <model-list></model-list>
     </v-menu>
     <v-list-item>
       <v-list-item-action>
@@ -49,15 +50,15 @@
 </template>
 
 <script>
-import ModelCard from '../../card/ModelCard'
+import ModelList from '../../card/ModelList'
 import { mapState, mapActions } from 'vuex'
 
 export default {
   components: {
-    ModelCard
+    ModelList
   },
   computed: {
-    ...mapState('map', ['center']),
+    ...mapState('map', ['center', 'operationallayers']),
     isPreserved () {
       return Object.keys(this.center).length === 0 ? 'grey lighten-1' : 'green lighten-1'
     }

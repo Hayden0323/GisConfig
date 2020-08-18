@@ -1,33 +1,65 @@
-import { changeMaxSpaceErr, changeOffsetZ } from '../../scripts/model-core'
+import {
+  changeMaxSpaceErr,
+  changeOffsetZ,
+  deleteTileset,
+} from '../../scripts/model-core'
 
 const state = () => ({
-  type: '3dtiles',
-  name: '',
-  url: 'http://58.215.11.2:8098/static/map/baowan/baowan3D/Scene/baowan3D.json',
-  maximumScreenSpaceError: 8,
-  maximumMemoryUsage: 8192,
-  dynamicScreenSpaceError: true,
-  cullWithChildrenBounds: true,
-  offset: {
-    z: 0,
-  },
-  visible: true,
+  uid: 0,
   center: {},
+  operationallayers: [],
 })
 
 const mutations = {
-  changeUrl(state, url) {
-    state.url = url
+  changeUrl(state, { id, val }) {
+    const copyLayers = [...state.operationallayers]
+    const layer = copyLayers.find((layer) => id === layer.id)
+
+    layer.url = val
+    state.operationallayers = copyLayers
   },
-  changeMaxSpaceErr(state, maximumScreenSpaceError) {
-    if (typeof maximumScreenSpaceError !== 'number') return
-    state.maximumScreenSpaceError = maximumScreenSpaceError
-    changeMaxSpaceErr(maximumScreenSpaceError)
+  changeMaxSpaceErr(state, { id, val }) {
+    const copyLayers = [...state.operationallayers]
+    const layer = copyLayers.find((layer) => id === layer.id)
+
+    layer.maximumScreenSpaceError = val
+    state.operationallayers = copyLayers
+    changeMaxSpaceErr(id, val)
   },
-  changeOffsetZ(state, offsetZ) {
-    if (typeof offsetZ !== 'number') return
-    state.offset.z = offsetZ
-    changeOffsetZ(offsetZ)
+  changeOffsetZ(state, { id, val }) {
+    const copyLayers = [...state.operationallayers]
+    const layer = copyLayers.find((layer) => id === layer.id)
+
+    layer.offset.z = val
+    state.operationallayers = copyLayers
+    changeOffsetZ(id, val)
+  },
+  addLayer(state, type) {
+    state.uid++
+    const layer = {
+      id: state.uid,
+      type: type,
+      name: `模型 ${state.uid}`,
+      url: '',
+      maximumScreenSpaceError: 4,
+      maximumMemoryUsage: 8192,
+      dynamicScreenSpaceError: true,
+      cullWithChildrenBounds: true,
+      offset: {
+        z: 0,
+      },
+      visible: true,
+    }
+
+    state.operationallayers = [layer, ...state.operationallayers]
+  },
+  deleteLayer(state, id) {
+    const copyLayers = [...state.operationallayers]
+    const layer = copyLayers.find((layer) => id === layer.id)
+    const index = copyLayers.indexOf(layer)
+
+    state.operationallayers.splice(index, 1)
+    deleteTileset(id)
   },
 }
 

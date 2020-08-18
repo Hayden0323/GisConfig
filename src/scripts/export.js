@@ -153,19 +153,7 @@ export function getJSON() {
         url: 'img/tietu/world.jpg',
       },
     ],
-    operationallayers: [
-      {
-        type: map.type,
-        name: map.name,
-        url: map.url,
-        maximumScreenSpaceError: map.maximumScreenSpaceError,
-        maximumMemoryUsage: map.maximumMemoryUsage,
-        dynamicScreenSpaceError: map.dynamicScreenSpaceError,
-        cullWithChildrenBounds: map.cullWithChildrenBounds,
-        offset: map.offset,
-        visible: map.visible,
-      },
-    ],
+    operationallayers: map.operationallayers,
   }
 
   const platConfig = {

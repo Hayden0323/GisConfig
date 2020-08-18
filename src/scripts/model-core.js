@@ -1,18 +1,19 @@
 import store from '../store/index'
 
-let tileset // 模型对象
-let originalCenter // 原始中心点
-let pointEntity // 模型中心点
+let tilesets = {} // 模型对象
+// let originalCenter // 原始中心点
+// let pointEntity // 模型中心点
 
 /**
  * 加载模型
+ * @param {Number} id 唯一值
  * @param {String} url 模型地址
  * @param {Number} maximumScreenSpaceError 模型精度
  * @param {Boolean} isProxy 是否需要代理
  */
-export function loadModel(url, maximumScreenSpaceError, isProxy = false) {
-  if (tileset !== null) {
-    window.$viewer.scene.primitives.remove(tileset)
+export function loadModel(id, url, maximumScreenSpaceError, isProxy = false) {
+  if (tilesets[id] !== null) {
+    window.$viewer.scene.primitives.remove(tilesets[id])
   }
 
   if (isProxy) {
@@ -22,12 +23,14 @@ export function loadModel(url, maximumScreenSpaceError, isProxy = false) {
     })
   }
 
-  tileset = window.$viewer.scene.primitives.add(
+  tilesets[id] = window.$viewer.scene.primitives.add(
     new window.$Cesium.Cesium3DTileset({
       url,
       maximumScreenSpaceError,
     })
   )
+
+  let tileset = tilesets[id]
 
   tileset._config = {
     showClickFeature: true,
@@ -48,13 +51,14 @@ export function loadModel(url, maximumScreenSpaceError, isProxy = false) {
       )
 
       // 记录模型原始的中心点
-      originalCenter = window.$mars3d.tileset.getCenter(tileset)
+      tileset.$originalCenter = window.$mars3d.tileset.getCenter(tileset)
 
       let position = tileset.boundingSphere.center
 
       // 显示出中心点
-      if (pointEntity) window.$viewer.entities.remove(pointEntity)
-      pointEntity = window.$viewer.entities.add({
+      if (tileset.$pointEntity)
+        window.$viewer.entities.remove(tileset.$pointEntity)
+      tileset.$pointEntity = window.$viewer.entities.add({
         name: '模型中心点',
         position,
         point: {
@@ -72,13 +76,13 @@ export function loadModel(url, maximumScreenSpaceError, isProxy = false) {
           calback: (newHeight, cartOld) => {
             if (newHeight == null) return
 
-            let offsetZ = newHeight - originalCenter.z
+            let offsetZ = newHeight - tileset.$originalCenter.z
             console.log(
               `地面海拔: ${newHeight.toFixed(2)}, 需要偏移: ${offsetZ.toFixed(
                 2
               )}`
             )
-            store.commit('map/changeOffsetZ', offsetZ)
+            store.commit('map/changeOffsetZ', { id, val: offsetZ })
           },
         }
       )
@@ -91,22 +95,40 @@ export function loadModel(url, maximumScreenSpaceError, isProxy = false) {
 
 /**
  * 改变模型精度
+ * @param {Number} id
  * @param {Number} val
  */
-export function changeMaxSpaceErr(val) {
-  if (tileset !== null && typeof val == 'number') {
+export function changeMaxSpaceErr(id, val) {
+  const tileset = tilesets[id]
+  if (tileset !== undefined && typeof val == 'number') {
     tileset.maximumScreenSpaceError = val
   }
 }
 
 /**
  * 改变模型高度偏移量
+ * @param {Number} id
  * @param {Number} val
  */
-export function changeOffsetZ(val) {
-  if (tileset !== null && typeof val == 'number') {
-    originalCenter.z = val
+export function changeOffsetZ(id, val) {
+  const tileset = tilesets[id]
+  if (tileset !== undefined && typeof val == 'number') {
+    tileset.$originalCenter.z = val
 
-    window.$mars3d.tileset.updateMatrix(tileset, originalCenter)
+    window.$mars3d.tileset.updateMatrix(tileset, tileset.$originalCenter)
+  }
+}
+
+/**
+ * 删除指定的图层
+ * @param {Number} id
+ */
+export function deleteTileset(id) {
+  const tileset = tilesets[id]
+  if (tileset !== undefined && typeof id == 'number') {
+    window.$viewer.scene.primitives.remove(tilesets[id])
+
+    delete tilesets[id]
+    console.log(tilesets)
   }
 }
