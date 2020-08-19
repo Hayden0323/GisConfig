@@ -153,7 +153,9 @@ export function getJSON() {
         url: 'img/tietu/world.jpg',
       },
     ],
-    operationallayers: map.operationallayers,
+    operationallayers: map.operationallayers.filter(
+      (layer) => layer.url !== ''
+    ),
   }
 
   const platConfig = {

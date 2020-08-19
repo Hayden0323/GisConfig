@@ -1,8 +1,6 @@
 import store from '../store/index'
 
 let tilesets = {} // 模型对象
-// let originalCenter // 原始中心点
-// let pointEntity // 模型中心点
 
 /**
  * 加载模型
@@ -78,9 +76,8 @@ export function loadModel(id, url, maximumScreenSpaceError, isProxy = false) {
 
             let offsetZ = newHeight - tileset.$originalCenter.z
             console.log(
-              `地面海拔: ${newHeight.toFixed(2)}, 需要偏移: ${offsetZ.toFixed(
-                2
-              )}`
+              `地面海拔: ${newHeight.toFixed(2)}, 
+              需要偏移: ${offsetZ.toFixed(2)}`
             )
             store.commit('map/changeOffsetZ', { id, val: offsetZ })
           },
@@ -95,8 +92,8 @@ export function loadModel(id, url, maximumScreenSpaceError, isProxy = false) {
 
 /**
  * 改变模型精度
- * @param {Number} id
- * @param {Number} val
+ * @param {Number} id   唯一值
+ * @param {Number} val  模型精度
  */
 export function changeMaxSpaceErr(id, val) {
   const tileset = tilesets[id]
@@ -107,8 +104,8 @@ export function changeMaxSpaceErr(id, val) {
 
 /**
  * 改变模型高度偏移量
- * @param {Number} id
- * @param {Number} val
+ * @param {Number} id   唯一值
+ * @param {Number} val  高度偏移量
  */
 export function changeOffsetZ(id, val) {
   const tileset = tilesets[id]
@@ -121,7 +118,7 @@ export function changeOffsetZ(id, val) {
 
 /**
  * 删除指定的图层
- * @param {Number} id
+ * @param {Number} id  唯一值
  */
 export function deleteTileset(id) {
   const tileset = tilesets[id]
@@ -129,6 +126,5 @@ export function deleteTileset(id) {
     window.$viewer.scene.primitives.remove(tilesets[id])
 
     delete tilesets[id]
-    console.log(tilesets)
   }
 }
