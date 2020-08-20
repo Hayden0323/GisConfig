@@ -6,7 +6,7 @@
     "infoBox": true,
     "vrButton": false,
     "fullscreenButton": false,
-    "geocoder": false,
+    "geocoder": true,
     "baseLayerPicker": true,
     "showRenderLoopErrors": true,
     "center": {
@@ -34,7 +34,7 @@
     },
     "navigation": {
       "legend": { "left": "100px", "bottom": "-1px" },
-      "compass": { "bottom": "200px", "right": "2px" }
+      "compass": { "bottom": "240px", "right": "2px" }
     },
     "terrain": {
       "url": "http://data.marsgis.cn/terrain",

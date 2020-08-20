@@ -2,6 +2,7 @@ import {
   changeMaxSpaceErr,
   changeOffsetZ,
   deleteTileset,
+  updateGltfModel,
 } from '../../scripts/model-core'
 
 const state = () => ({
@@ -34,32 +35,71 @@ const mutations = {
     state.operationallayers = copyLayers
     changeOffsetZ(id, val)
   },
+  changePosition(state, { id, position }) {
+    const copyLayers = [...state.operationallayers]
+    const layer = copyLayers.find((layer) => id === layer.id)
+
+    Object.assign(layer.position, position)
+    state.operationallayers = copyLayers
+    updateGltfModel(id, position)
+  },
+  changeScale(state, { id, val }) {
+    const copyLayers = [...state.operationallayers]
+    const layer = copyLayers.find((layer) => id === layer.id)
+
+    layer.scale = Number(val)
+    state.operationallayers = copyLayers
+
+    updateGltfModel(id, { scale: val })
+  },
   addLayer(state, type) {
+    let layer
     state.uid++
-    const layer = {
-      id: state.uid,
-      type: type,
-      name: `模型 ${state.uid}`,
-      url: '',
-      maximumScreenSpaceError: 4,
-      maximumMemoryUsage: 8192,
-      dynamicScreenSpaceError: true,
-      cullWithChildrenBounds: true,
-      offset: {
-        z: 0,
-      },
-      visible: true,
+    switch (type) {
+      case '3dtiles':
+        layer = {
+          id: state.uid,
+          type: type,
+          name: `模型 ${state.uid}`,
+          url: '',
+          maximumScreenSpaceError: 4,
+          maximumMemoryUsage: 8192,
+          dynamicScreenSpaceError: true,
+          cullWithChildrenBounds: true,
+          offset: {
+            z: 0,
+          },
+          visible: true,
+        }
+        break
+      case 'gltf':
+        layer = {
+          id: state.uid,
+          type: type,
+          name: `模型 ${state.uid}`,
+          url: '',
+          scale: 1,
+          position: {
+            x: 0,
+            y: 0,
+            z: 0,
+            heading: 0,
+          },
+        }
+        break
     }
 
     state.operationallayers = [layer, ...state.operationallayers]
   },
-  deleteLayer(state, id) {
+  deleteLayer(state, { id, type }) {
     const copyLayers = [...state.operationallayers]
-    const layer = copyLayers.find((layer) => id === layer.id)
+    const layer = copyLayers.find(
+      (layer) => id == layer.id && type == layer.type
+    )
     const index = copyLayers.indexOf(layer)
 
     state.operationallayers.splice(index, 1)
-    deleteTileset(id)
+    deleteTileset(id, type)
   },
 }
 

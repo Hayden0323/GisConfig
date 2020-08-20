@@ -15,7 +15,7 @@
              v-show="tileShow">
         <v-expansion-panels accordion
                             hover>
-          <v-expansion-panel v-for="operationallayer in operationallayers"
+          <v-expansion-panel v-for="operationallayer in tilesetLayers"
                              :key="operationallayer.id">
             <model-card :operationallayer="operationallayer"></model-card>
           </v-expansion-panel>
@@ -23,13 +23,26 @@
       </v-row>
     </v-expand-transition>
     <v-toolbar dense>
-      <v-app-bar-nav-icon></v-app-bar-nav-icon>
+      <v-app-bar-nav-icon @click="gltfShow = !gltfShow"></v-app-bar-nav-icon>
       <v-toolbar-title>GLTF</v-toolbar-title>
       <v-spacer></v-spacer>
       <v-btn icon>
-        <v-icon color="primary">add_circle</v-icon>
+        <v-icon color="primary"
+                @click.stop="addLayer('gltf')">add_circle</v-icon>
       </v-btn>
     </v-toolbar>
+    <v-expand-transition>
+      <v-row justify="center"
+             v-show="gltfShow">
+        <v-expansion-panels accordion
+                            hover>
+          <v-expansion-panel v-for="operationallayer in gltfLayers"
+                             :key="operationallayer.id">
+            <gltf-card :operationallayer="operationallayer"></gltf-card>
+          </v-expansion-panel>
+        </v-expansion-panels>
+      </v-row>
+    </v-expand-transition>
   </div>
 </template>
 
@@ -37,16 +50,29 @@
 import { mapState, mapMutations } from 'vuex'
 
 import ModelCard from '../card/ModelCard'
+import GltfCard from '../card/GltfCard'
 
 export default {
   components: {
-    ModelCard
+    ModelCard,
+    GltfCard
   },
   data: () => ({
     tileShow: true,
+    gltfShow: true
   }),
   computed: {
-    ...mapState('map', ['operationallayers'])
+    ...mapState('map', ['operationallayers']),
+    tilesetLayers: function () {
+      return this.operationallayers.filter(
+        layer => layer.type === '3dtiles'
+      )
+    },
+    gltfLayers: function () {
+      return this.operationallayers.filter(
+        layer => layer.type === 'gltf'
+      )
+    }
   },
   methods: {
     ...mapMutations('map', ['addLayer'])

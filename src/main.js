@@ -9,6 +9,12 @@ import './assets/style/common.less'
 
 Vue.config.productionTip = false
 
+// 处理弹框msg信息
+window.haoutil = window.haoutil || {}
+window.haoutil.msg = function(msg) {
+  //可为空，或vue弹出msg
+}
+
 new Vue({
   vuetify,
   router,

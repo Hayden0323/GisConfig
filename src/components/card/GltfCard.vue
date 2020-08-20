@@ -1,5 +1,5 @@
 <template>
-  <div class="model-card">
+  <div class="gltf-card">
     <v-expansion-panel-header>
       {{operationallayer.name}}
       <template v-slot:actions>
@@ -14,40 +14,34 @@
         <v-list>
           <v-list-item>
             <v-col cols="12">
-              <v-text-field label="倾斜摄影模型地址"
+              <v-text-field label="gltf模型地址"
                             v-model="url"></v-text-field>
             </v-col>
           </v-list-item>
           <v-list-item>
             <v-col cols="9">
-              <v-checkbox v-model="isProxy"
-                          label="需要代理"></v-checkbox>
+              <v-text-field v-model="scale"
+                            label="比例"
+                            max="100"
+                            min="0.001"
+                            step="1"
+                            type="number"
+                            @keydown="false"></v-text-field>
             </v-col>
             <v-col cols="3">
               <v-btn color="primary"
                      @click.prevent="handleLoadModel"
-                     small>加载模型</v-btn>
+                     small>绘制模型</v-btn>
             </v-col>
           </v-list-item>
           <v-list-item>
             <v-col cols="12">
-              <v-slider v-model="maximumScreenSpaceError"
+              <v-slider v-model="heading"
                         thumb-label="always"
                         :thumb-size="24"
-                        min="1"
-                        max="16"
-                        label="模型精度"></v-slider>
-            </v-col>
-          </v-list-item>
-
-          <v-list-item>
-            <v-col cols="12">
-              <v-slider v-model="offsetZ"
-                        thumb-label="always"
-                        :thumb-size="24"
-                        min="-50"
-                        max="100"
-                        label="高度偏移值"></v-slider>
+                        min="0"
+                        max="180"
+                        label="角度"></v-slider>
             </v-col>
           </v-list-item>
         </v-list>
@@ -58,7 +52,7 @@
 
 <script>
 import { mapState, mapMutations } from 'vuex'
-import { loadModel } from '../../scripts/model-core'
+import { drawGltfModel } from '../../scripts/model-core'
 
 export default {
   props: {
@@ -66,9 +60,6 @@ export default {
       type: Object
     }
   },
-  data: () => ({
-    isProxy: false,
-  }),
   computed: {
     url: {
       get: function () {
@@ -80,34 +71,35 @@ export default {
         this.changeUrl({ id: this.operationallayer.id, val })
       }
     },
-    maximumScreenSpaceError: {
+    scale: {
       get: function () {
         return this.$store.state.map.operationallayers.find(
           item => item.id === this.operationallayer.id
-        ).maximumScreenSpaceError
+        ).scale
       },
       set: function (val) {
-        this.changeMaxSpaceErr({ id: this.operationallayer.id, val })
+        this.changeScale({ id: this.operationallayer.id, val })
       }
     },
-    offsetZ: {
+    heading: {
       get: function () {
         return this.$store.state.map.operationallayers.find(
           item => item.id === this.operationallayer.id
-        ).offset.z
+        ).position.heading
       },
       set: function (val) {
-        this.changeOffsetZ({ id: this.operationallayer.id, val })
+        this.changePosition({ id: this.operationallayer.id, position: { heading: val } })
       }
     }
   },
   methods: {
-    ...mapMutations('map', ['changeUrl', 'changeMaxSpaceErr', 'changeOffsetZ', 'deleteLayer']),
+    ...mapMutations('map', ['changeUrl', 'changePosition', 'changeScale', 'deleteLayer']),
     handleLoadModel (e) {
       if (e.key) {
         if (e.key !== 'Enter') return
       }
-      loadModel(this.operationallayer.id, this.url, this.maximumScreenSpaceError, this.isProxy)
+
+      drawGltfModel(this.operationallayer.id, this.url, this.scale)
     }
   }
 }
