@@ -40,7 +40,7 @@
                         thumb-label="always"
                         :thumb-size="24"
                         min="0"
-                        max="180"
+                        max="360"
                         label="角度"></v-slider>
             </v-col>
           </v-list-item>
