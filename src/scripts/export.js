@@ -44,11 +44,11 @@ export function getJSON() {
     },
     basemaps: [
       {
+        pid: 10,
         name: '谷歌卫星',
         icon: 'img/basemaps/google_img.png',
-        type: 'www_google',
-        crs: 'wgs84',
-        layer: 'img_d',
+        type: 'tile',
+        url: 'http://mt1.google.cn/vt/lyrs=s&x={x}&y={y}&z={z}',
         visible: true,
       },
       {
