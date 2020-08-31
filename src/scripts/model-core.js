@@ -139,6 +139,10 @@ export function deleteTileset(id, type) {
         drawControl.deleteEntity(tilesets[id])
         delete tilesets[id]
         break
+      case 'rectangle':
+        drawControl.deleteEntity(tilesets[id])
+        delete tilesets[id]
+        break
     }
   }
 }
@@ -213,6 +217,63 @@ export function updateGltfModel(id, style) {
     const attr = tileset.attribute
 
     Object.assign(attr.style, style)
+    drawControl.updateAttribute(attr, tileset)
+  }
+}
+
+/**
+ * 绘制Rectangle
+ *
+ * @param {Number} id        唯一值
+ * @param {String} url       图片地址
+ * @param {Number} rotation  角度
+ */
+export function drawRectangle(id, url, rotation) {
+  if (!drawControl) {
+    createAndInitDrawControl(window.$viewer)
+    drawControl.on(window.$mars3d.draw.event.EditMovePoint, (e) => {
+      store.commit('map/changeCoordinates', {
+        id,
+        coordinates: drawControl.getCoordinates(e.entity),
+      })
+    })
+  }
+
+  if (tilesets[id]) {
+    drawControl.deleteEntity(tilesets[id])
+    delete tilesets[id]
+  }
+
+  drawControl.startDraw({
+    type: 'rectangle',
+    style: {
+      material: url,
+      rotation: rotation || 0,
+      clampToGround: true,
+    },
+    success: function(entity) {
+      store.commit('map/changeCoordinates', {
+        id,
+        coordinates: drawControl.getCoordinates(entity),
+      })
+
+      tilesets[id] = entity
+    },
+  })
+}
+
+/**
+ * 改变角度
+ *
+ * @param {Number} id   唯一值
+ * @param {Number} val  角度
+ */
+export function changeRotation(id, val) {
+  const tileset = tilesets[id]
+  if (tileset !== undefined && typeof val == 'number') {
+    const attr = tileset.attribute
+
+    Object.assign(attr.style, { rotation: val, stRotation: val })
     drawControl.updateAttribute(attr, tileset)
   }
 }

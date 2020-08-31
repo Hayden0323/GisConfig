@@ -3,6 +3,7 @@ import {
   changeOffsetZ,
   deleteTileset,
   updateGltfModel,
+  changeRotation,
 } from '../../scripts/model-core'
 
 const state = () => ({
@@ -17,6 +18,22 @@ const mutations = {
     const layer = copyLayers.find((layer) => id === layer.id)
 
     layer.url = val
+    state.operationallayers = copyLayers
+  },
+  changeRotation(state, { id, val }) {
+    const copyLayers = [...state.operationallayers]
+    const layer = copyLayers.find((layer) => id === layer.id)
+
+    layer.rotation = val
+    layer.stRotation = val
+    state.operationallayers = copyLayers
+    changeRotation(id, val)
+  },
+  changeCoordinates(state, { id, coordinates }) {
+    const copyLayers = [...state.operationallayers]
+    const layer = copyLayers.find((layer) => id === layer.id)
+
+    layer.coordinates = coordinates
     state.operationallayers = copyLayers
   },
   changeMaxSpaceErr(state, { id, val }) {
@@ -60,7 +77,7 @@ const mutations = {
         layer = {
           id: state.uid,
           type: type,
-          name: `模型 ${state.uid}`,
+          name: `模型-${state.uid}`,
           url: '',
           maximumScreenSpaceError: 4,
           maximumMemoryUsage: 8192,
@@ -76,7 +93,7 @@ const mutations = {
         layer = {
           id: state.uid,
           type: type,
-          name: `模型 ${state.uid}`,
+          name: `模型-${state.uid}`,
           url: '',
           scale: 1,
           position: {
@@ -85,6 +102,18 @@ const mutations = {
             z: 0,
             heading: 0,
           },
+        }
+        break
+      case 'rectangle':
+        layer = {
+          id: state.uid,
+          type: type,
+          name: `模型-${state.uid}`,
+          url: '',
+          rotation: 0,
+          stRotation: 0,
+          coordinates: [],
+          clampToGround: true,
         }
         break
     }

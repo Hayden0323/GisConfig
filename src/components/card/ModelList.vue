@@ -43,6 +43,27 @@
         </v-expansion-panels>
       </v-row>
     </v-expand-transition>
+    <v-toolbar dense>
+      <v-app-bar-nav-icon @click="rectangleShow = !rectangleShow"></v-app-bar-nav-icon>
+      <v-toolbar-title>Image</v-toolbar-title>
+      <v-spacer></v-spacer>
+      <v-btn icon>
+        <v-icon color="primary"
+                @click.stop="addLayer('rectangle')">add_circle</v-icon>
+      </v-btn>
+    </v-toolbar>
+    <v-expand-transition>
+      <v-row justify="center"
+             v-show="rectangleShow">
+        <v-expansion-panels accordion
+                            hover>
+          <v-expansion-panel v-for="operationallayer in rectangleLayers"
+                             :key="operationallayer.id">
+            <rectangle-card :operationallayer="operationallayer"></rectangle-card>
+          </v-expansion-panel>
+        </v-expansion-panels>
+      </v-row>
+    </v-expand-transition>
   </div>
 </template>
 
@@ -51,15 +72,18 @@ import { mapState, mapMutations } from 'vuex'
 
 import ModelCard from '../card/ModelCard'
 import GltfCard from '../card/GltfCard'
+import RectangleCard from '../card/RectangleCard'
 
 export default {
   components: {
     ModelCard,
-    GltfCard
+    GltfCard,
+    RectangleCard
   },
   data: () => ({
     tileShow: true,
-    gltfShow: true
+    gltfShow: true,
+    rectangleShow: true
   }),
   computed: {
     ...mapState('map', ['operationallayers']),
@@ -71,6 +95,11 @@ export default {
     gltfLayers: function () {
       return this.operationallayers.filter(
         layer => layer.type === 'gltf'
+      )
+    },
+    rectangleLayers: function () {
+      return this.operationallayers.filter(
+        layer => layer.type === 'rectangle'
       )
     }
   },
