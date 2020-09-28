@@ -1,7 +1,7 @@
 const state = () => ({
   isShow: false,
   text: '',
-  color: 'error',
+  color: 'error'
 })
 
 const mutations = {
@@ -13,11 +13,11 @@ const mutations = {
     } else {
       state.isShow = isShow
     }
-  },
+  }
 }
 
 export default {
   namespaced: true,
   state,
-  mutations,
+  mutations
 }

@@ -9,7 +9,7 @@ const state = () => ({
   password: '',
   staff: {
     url: 'http://122.112.193.102:8090/map/xiaofangyuan-run.gltf',
-    scale: 3,
+    scale: 3
   },
   height: 0,
   // 车辆相关
@@ -17,8 +17,8 @@ const state = () => ({
   carAccount: '',
   car: {
     url: 'http://122.112.193.102:8090/map/qiche.gltf',
-    scale: 0.1,
-  },
+    scale: 0.1
+  }
 })
 
 const mutations = {
@@ -63,11 +63,11 @@ const mutations = {
     if (url == undefined) url = state.car.url
     if (scale == undefined) scale = state.car.scale
     state.car = { url, scale }
-  },
+  }
 }
 
 export default {
   namespaced: true,
   state,
-  mutations,
+  mutations
 }

@@ -3,26 +3,26 @@ import {
   changeOffsetZ,
   deleteTileset,
   updateGltfModel,
-  changeRotation,
+  changeRotation
 } from '../../scripts/model-core'
 
 const state = () => ({
   uid: 0,
   center: {},
-  operationallayers: [],
+  operationallayers: []
 })
 
 const mutations = {
   changeUrl(state, { id, val }) {
     const copyLayers = [...state.operationallayers]
-    const layer = copyLayers.find((layer) => id === layer.id)
+    const layer = copyLayers.find(layer => id === layer.id)
 
     layer.url = val
     state.operationallayers = copyLayers
   },
   changeRotation(state, { id, val }) {
     const copyLayers = [...state.operationallayers]
-    const layer = copyLayers.find((layer) => id === layer.id)
+    const layer = copyLayers.find(layer => id === layer.id)
 
     layer.rotation = val
     layer.stRotation = val
@@ -31,14 +31,14 @@ const mutations = {
   },
   changeCoordinates(state, { id, coordinates }) {
     const copyLayers = [...state.operationallayers]
-    const layer = copyLayers.find((layer) => id === layer.id)
+    const layer = copyLayers.find(layer => id === layer.id)
 
     layer.coordinates = coordinates
     state.operationallayers = copyLayers
   },
   changeMaxSpaceErr(state, { id, val }) {
     const copyLayers = [...state.operationallayers]
-    const layer = copyLayers.find((layer) => id === layer.id)
+    const layer = copyLayers.find(layer => id === layer.id)
 
     layer.maximumScreenSpaceError = val
     state.operationallayers = copyLayers
@@ -46,7 +46,7 @@ const mutations = {
   },
   changeOffsetZ(state, { id, val }) {
     const copyLayers = [...state.operationallayers]
-    const layer = copyLayers.find((layer) => id === layer.id)
+    const layer = copyLayers.find(layer => id === layer.id)
 
     layer.offset.z = val
     state.operationallayers = copyLayers
@@ -54,7 +54,7 @@ const mutations = {
   },
   changePosition(state, { id, position }) {
     const copyLayers = [...state.operationallayers]
-    const layer = copyLayers.find((layer) => id === layer.id)
+    const layer = copyLayers.find(layer => id === layer.id)
 
     Object.assign(layer.position, position)
     state.operationallayers = copyLayers
@@ -62,7 +62,7 @@ const mutations = {
   },
   changeScale(state, { id, val }) {
     const copyLayers = [...state.operationallayers]
-    const layer = copyLayers.find((layer) => id === layer.id)
+    const layer = copyLayers.find(layer => id === layer.id)
 
     layer.scale = Number(val)
     state.operationallayers = copyLayers
@@ -84,9 +84,9 @@ const mutations = {
           dynamicScreenSpaceError: true,
           cullWithChildrenBounds: true,
           offset: {
-            z: 0,
+            z: 0
           },
-          visible: true,
+          visible: true
         }
         break
       case 'gltf':
@@ -100,8 +100,8 @@ const mutations = {
             x: 0,
             y: 0,
             z: 0,
-            heading: 0,
-          },
+            heading: 0
+          }
         }
         break
       case 'rectangle':
@@ -113,7 +113,7 @@ const mutations = {
           rotation: 0,
           stRotation: 0,
           coordinates: [],
-          clampToGround: true,
+          clampToGround: true
         }
         break
     }
@@ -122,14 +122,12 @@ const mutations = {
   },
   deleteLayer(state, { id, type }) {
     const copyLayers = [...state.operationallayers]
-    const layer = copyLayers.find(
-      (layer) => id == layer.id && type == layer.type
-    )
+    const layer = copyLayers.find(layer => id == layer.id && type == layer.type)
     const index = copyLayers.indexOf(layer)
 
     state.operationallayers.splice(index, 1)
     deleteTileset(id, type)
-  },
+  }
 }
 
 const actions = {
@@ -148,12 +146,12 @@ const actions = {
         { root: true }
       )
     }
-  },
+  }
 }
 
 export default {
   namespaced: true,
   state,
   mutations,
-  actions,
+  actions
 }

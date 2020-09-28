@@ -3,7 +3,7 @@ const state = () => ({
   baseUrl: '58.214.244.98',
   basePort: '8098',
   carUrl: '58.214.244.98',
-  carPort: '8098',
+  carPort: '8098'
 })
 
 const mutations = {
@@ -21,11 +21,11 @@ const mutations = {
   },
   changeCarPort(state, val) {
     state.carPort = val
-  },
+  }
 }
 
 export default {
   namespaced: true,
   state,
-  mutations,
+  mutations
 }
